@@ -5,7 +5,7 @@ import { ImageBackground, StyleSheet } from "react-native";
 const LogInScreen = () => {
     return (
     <ImageBackground style={styles.background} source={require("../assets/LogInScreen.jpg")}>
-
+        
     </ImageBackground>
     );
 }
