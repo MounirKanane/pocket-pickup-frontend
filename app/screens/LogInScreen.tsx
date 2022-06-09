@@ -1,12 +1,15 @@
 import React from "react";
-import { ImageBackground, StyleSheet } from "react-native";
+import { ImageBackground, KeyboardAvoidingView, StyleSheet } from "react-native";
 
 
 const LogInScreen = () => {
     return (
-    <ImageBackground style={styles.background} source={require("../assets/LogInScreen.jpg")}>
-        
-    </ImageBackground>
+    // Ensures that user keyboard does not block input fields
+    <KeyboardAvoidingView style={styles.background}> 
+        <ImageBackground style={styles.background} source={require("../assets/LogInScreen.jpg")}>
+            
+        </ImageBackground>
+    </KeyboardAvoidingView>
     );
 }
 
