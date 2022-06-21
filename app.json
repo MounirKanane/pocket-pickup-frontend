@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "app/assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme" : "com.csquad.pocketpickup", 
     "splash": {
       "image": "app/assets/splash.png",
       "resizeMode": "contain",
@@ -18,9 +19,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true, 
+      "bundleIdentifier": "com.csquad.pocketpickup"
     },
     "android": {
+      "package": "com.csquad.pocketpickup",
       "adaptiveIcon": {
         "foregroundImage": "app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
