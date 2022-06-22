@@ -7,7 +7,7 @@ const LogInScreen = () => {
     // Ensures that user keyboard does not block input fields
     <KeyboardAvoidingView style={styles.background}> 
         <Text>
-            Hello
+            Hello Zaid
         </Text>
     </KeyboardAvoidingView>
     );
@@ -16,7 +16,8 @@ const LogInScreen = () => {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 
