@@ -4,10 +4,11 @@
     "slug": "PocketPickUp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "app/assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme" : "com.csquad.pocketpickup", 
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "app/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,16 +19,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true, 
+      "bundleIdentifier": "com.csquad.pocketpickup"
     },
     "android": {
+      "package": "com.csquad.pocketpickup",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "app/assets/favicon.png"
     }
   }
 }
