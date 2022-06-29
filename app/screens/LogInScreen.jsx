@@ -1,40 +1,72 @@
 import React from "react";
-import { ImageBackground, KeyboardAvoidingView, StyleSheet, Button, View, Text } from "react-native";
+import { ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity, Text, Image, View  } from "react-native";
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import axios from "axios";
 import { server } from "../configs/configs"
 
- 
+//fonts
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
+
 WebBrowser.maybeCompleteAuthSession();
 
 const LogInScreen = () => {
     const [idToken, setIdToken] = React.useState();
-    const [userInfo, setUserInfo] = React.useState();
+    
+    React.useEffect(() => {
+        if (response?.type === "success"){ 
+            //console.log(response.params.id_token);
+            setIdToken(response.params.id_token);
+        }
+    }, [response]);
 
-    const[request, response, promptAsync] = Google.useAuthRequest({
+    
+    let [fonts] = useFonts({
+        "Lobster": require('../assets/fonts/Lobster-Regular.ttf'),
+        "Oleo" : require('../assets/fonts/OleoScriptSwashCaps-Regular.ttf'),
+        "OleoBold" : require('../assets/fonts/OleoScriptSwashCaps-Bold.ttf'),
+        "Titan": require('../assets/fonts/TitanOne-Regular.ttf'),
+        "Perm": require('../assets/fonts/PermanentMarker.ttf'),
+        "Racing": require('../assets/fonts/RacingSansOne.ttf'),
+        "Futura": require('../assets/fonts/Futura.otf')
+    })
+
+    
+    const[request, response, promptAsync] = Google.useIdTokenAuthRequest({
         androidClientId: "352608050675-rf29klrfj4edlraicag2ta1bbumtgf15.apps.googleusercontent.com",
         iosClientId: "352608050675-44rdabun6cfpr6obrviq3bgr5g0b9asu.apps.googleusercontent.com",
         expoClientId: "352608050675-i1c6te97b5qoa8rbdpu9n1d3g5ooa1p3.apps.googleusercontent.com"
     });
-
-    React.useEffect(() => {
-        if (response?.type === "success"){ 
-            setIdToken(response.authentication.idToken);
-        }
-    }, [response]);
-
-    const getUserData  = () => { axios.get(`${server}/user`, {token: idToken}).then( (result) => { console.log(result) }).catch((err) => console.log(err)) };
-
-    getUserData();
+    
+    
+    const getUserData = () => { axios.get(`${server}/user`, {token: idToken}).then( (result) => { console.log(result) }).catch((err) => console.error(err)) };
+    
+    if(!fonts){
+        return <AppLoading />;
+    }
     return (
     // Ensures that user keyboard does not block input fields
-        <ImageBackground style={styles.background} source={require("../assets/LogInScreen.jpg")}>
-            <Button 
-            title={idToken ? "Get User Data" : "Login"}
-            onPress={idToken ? getUserData : () => { promptAsync({showInRecents: true})}}
-            />
-                
+        <ImageBackground style={styles.background} source={require("../assets/images/LogInScreen.jpg")}>
+            <SafeAreaView style={styles.container}>
+
+            <View style={styles.overlay} />
+            <View style={styles.header}>
+            <Text style={styles.title}> POCKET<Text style={styles.orange}> PICK-UP </Text><Text style={styles.orange}></Text></Text>
+            </View>
+            
+            <View style={styles.logos}>
+            <TouchableOpacity 
+            onPress={idToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true})}}>
+                <Image style={styles.image} source={require('../assets/images/Google3x.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={idToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true})}}>
+                <Image style={styles.apple} source={require('../assets/images/AppleWhite3x.png')} />
+            </TouchableOpacity>
+            </View>
+
+            </SafeAreaView>
         </ImageBackground>
     );
 }
@@ -42,8 +74,61 @@ const LogInScreen = () => {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        justifyContent: "center"
-    }
+    },
+    container:{
+        alignItems: "center",
+        justifyContent: "space-between",
+        height: "100%",
+    },
+    header: {
+        alignItems:"center",
+        justifyContent: "space-between",
+        position: "relative",
+        top: "1%",
+        width:"80%",
+    },
+    title: {
+        fontSize: 60,
+        color: "white",
+        fontFamily: "Racing",
+        textShadowColor:'white',
+        textShadowOffset:{width: .1, height: .1},
+        textShadowRadius:3,
+    },
+    caption: {
+        position:"relative",
+        bottom:10,
+        color:"white", 
+        fontSize: 28, 
+        fontFamily:"Oleo",   
+        textShadowColor:'#585858',
+        textShadowOffset:{width: 1, height: 1},
+        textShadowRadius:5
+    },
+    logos: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: "40%",
+        justifyContent: "space-between"
+    },
+    image:{
+        width: 80,
+        height: 80
+    },
+    apple:{
+        width: 68,
+        height: 68,
+        borderRadius: 5
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0,0,0,0.5)'
+      },
+      orange: {
+        color: "#ff8c00",
+        textShadowRadius: .5
+      }
+
 });
 
 export default LogInScreen;

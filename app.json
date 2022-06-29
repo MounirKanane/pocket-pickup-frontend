@@ -4,7 +4,7 @@
     "slug": "PocketPickUp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "app/assets/icon.png",
+    "icon": "app/assets/images/icon.png",
     "userInterfaceStyle": "light",
     "scheme" : "com.csquad.pocketpickup", 
     "splash": {
