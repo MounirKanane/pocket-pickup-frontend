@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity, Text, Image, View  } from "react-native";
+import { ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity, Text, Image, View, StatusBar  } from "react-native";
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import axios from "axios";
@@ -16,7 +16,6 @@ const LogInScreen = () => {
     
     React.useEffect(() => {
         if (response?.type === "success"){ 
-            //console.log(response.params.id_token);
             setIdToken(response.params.id_token);
         }
     }, [response]);
@@ -46,26 +45,28 @@ const LogInScreen = () => {
         return <AppLoading />;
     }
     return (
-    // Ensures that user keyboard does not block input fields
         <ImageBackground style={styles.background} source={require("../assets/images/LogInScreen.jpg")}>
+            <StatusBar hidden />
             <SafeAreaView style={styles.container}>
 
-            <View style={styles.overlay} />
-            <View style={styles.header}>
-            <Text style={styles.title}> POCKET<Text style={styles.orange}> PICK-UP </Text><Text style={styles.orange}></Text></Text>
-            </View>
-            
-            <View style={styles.logos}>
-            <TouchableOpacity 
-            onPress={idToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true})}}>
-                <Image style={styles.image} source={require('../assets/images/Google3x.png')} />
-            </TouchableOpacity>
-            <TouchableOpacity 
-            onPress={idToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true})}}>
-                <Image style={styles.apple} source={require('../assets/images/AppleWhite3x.png')} />
-            </TouchableOpacity>
-            </View>
+                <View style={styles.overlay} />
+                    <View style={styles.header}>
+                    <Text style={styles.title}> POCKET<Text style={styles.orange}> PICK-UP </Text></Text>
+                </View>
 
+                <View style={styles.footer}>
+                    <View style={styles.logos}>
+                        <TouchableOpacity 
+                        onPress={idToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true})}}>
+                            <Image style={styles.image} source={require('../assets/images/Google3x.png')} />
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        onPress={idToken ? getUserData : () => { promptAsync({useProxy: false, showInRecents: true})}}>
+                            <Image style={styles.apple} source={require('../assets/images/AppleWhite3x.png')} />
+                        </TouchableOpacity>
+                    </View>
+                <TouchableOpacity><Text style={styles.guest}>Continue as guest</Text></TouchableOpacity>
+                </View>
             </SafeAreaView>
         </ImageBackground>
     );
@@ -127,8 +128,16 @@ const styles = StyleSheet.create({
       orange: {
         color: "#ff8c00",
         textShadowRadius: .5
+      },
+      footer: {
+        alignItems: "center"
+      },
+      guest: {
+        color: "#E8E8E8",
+        fontFamily: "Futura",
+        marginTop: 15,
+        fontSize: 20
       }
-
 });
 
 export default LogInScreen;
