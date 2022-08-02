@@ -12,10 +12,19 @@ import AppLoading from "expo-app-loading";
 WebBrowser.maybeCompleteAuthSession();
 
 const LogInScreen = () => {
+    
+    
     const [idToken, setIdToken] = React.useState();
     
+    const[request, response, promptAsync] = Google.useIdTokenAuthRequest({
+        androidClientId: "352608050675-rf29klrfj4edlraicag2ta1bbumtgf15.apps.googleusercontent.com",
+        iosClientId: "352608050675-44rdabun6cfpr6obrviq3bgr5g0b9asu.apps.googleusercontent.com",
+        expoClientId: "352608050675-i1c6te97b5qoa8rbdpu9n1d3g5ooa1p3.apps.googleusercontent.com"
+    });
+
     React.useEffect(() => {
         if (response?.type === "success"){ 
+            console.log(response)
             setIdToken(response.params.id_token);
         }
     }, [response]);
@@ -32,18 +41,14 @@ const LogInScreen = () => {
     })
 
     
-    const[request, response, promptAsync] = Google.useIdTokenAuthRequest({
-        androidClientId: "352608050675-rf29klrfj4edlraicag2ta1bbumtgf15.apps.googleusercontent.com",
-        iosClientId: "352608050675-44rdabun6cfpr6obrviq3bgr5g0b9asu.apps.googleusercontent.com",
-        expoClientId: "352608050675-i1c6te97b5qoa8rbdpu9n1d3g5ooa1p3.apps.googleusercontent.com"
-    });
-    
-    
+
+
     const getUserData = () => { axios.get(`${server}/user`, {token: idToken}).then( (result) => { console.log(result) }).catch((err) => console.error(err)) };
     
     if(!fonts){
         return <AppLoading />;
     }
+
     return (
         <ImageBackground style={styles.background} source={require("../assets/images/LogInScreen.jpg")}>
             <StatusBar hidden />
@@ -67,6 +72,7 @@ const LogInScreen = () => {
                     </View>
                 <TouchableOpacity><Text style={styles.guest}>Continue as guest</Text></TouchableOpacity>
                 </View>
+                
             </SafeAreaView>
         </ImageBackground>
     );

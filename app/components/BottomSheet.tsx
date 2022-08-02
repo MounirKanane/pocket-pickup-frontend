@@ -1,80 +1,89 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import Animated, { Extrapolate, interpolate, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+import React, { useCallback, useRef, useMemo } from "react";
+import { StyleSheet, View, Text, Button } from "react-native";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import EventCard from "./EventCard";
 
-const {height: SCREEN_HEIGHT} = Dimensions.get('window')
-const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 40;
+const BottomSheetApp = () => {
+  // hooks
+  const sheetRef = useRef<BottomSheet>(null);
 
-type BottomSheetProps = {
-    children?: React.ReactNode;
-}
+  // variables
+//   const data = useMemo(
+//     () =>
+//       Array(50)
+//         .fill(0)
+//         .map((_, index) => `index-${index}`),
+//     []
+//   );
+  const data = [
+  <EventCard duration={"57 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>,<EventCard duration={"57 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>,
+    <EventCard duration={"53 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></    EventCard>,
+     <EventCard duration={"54 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>,
+     <EventCard duration={"52 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>,
+     <EventCard duration={"51 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>,
+     <EventCard duration={"50 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>
+    ]
+  const snapPoints = useMemo(() => ["15%", "50%", "98%"], []);
 
-const BottomSheet = (props: BottomSheetProps) => {
-    const translateY = useSharedValue(0);
-    const context = useSharedValue({y: 0});
+  // callbacks
+  const handleSheetChange = useCallback((index) => {
+    console.log("handleSheetChange", index);
+  }, []);
+  const handleSnapPress = useCallback((index) => {
+    sheetRef.current?.snapToIndex(index);
+  }, []);
+  const handleClosePress = useCallback(() => {
+    sheetRef.current?.close();
+  }, []);
 
-    const gesture = Gesture.Pan()
-    .onStart(() => {
-        context.value = { y: translateY.value };
-    })
-    .onUpdate((event) => {
-        translateY.value = event.translationY + context.value.y;
-        translateY.value = Math.max(translateY.value, MAX_TRANSLATE_Y);
-    })
-    .onEnd(() => {
-        if(translateY.value > -SCREEN_HEIGHT / 3){
-            translateY.value = withSpring(-60,{damping: 20});
-        } else if(translateY.value < -SCREEN_HEIGHT / 1.5){
-            translateY.value = withSpring(MAX_TRANSLATE_Y, { damping: 50});
-        }
-    });
-
-    useEffect(() => {
-        translateY.value = withSpring(-SCREEN_HEIGHT / 3, {damping: 20});
-    }, [])
-
-    const rBottomSheetStyle = useAnimatedStyle(() => {
-        const borderRadius = interpolate(
-            translateY.value, 
-            [MAX_TRANSLATE_Y+40, MAX_TRANSLATE_Y], 
-            [25, 5],
-            Extrapolate.CLAMP)
-
-        return {
-            borderRadius,
-            transform: [{translateY: translateY.value}]
-        }
-    })
-
-    return (
-        <GestureDetector gesture={gesture}>
-            <Animated.View style={[styles.container, rBottomSheetStyle]}>
-                <View style={styles.line}></View>
-                {props.children}
-            </Animated.View>
-        </GestureDetector>
-    )
-}
-
-export default BottomSheet;
+  // render
+  const renderItem = useCallback(
+    (item) => (
+      <View key={item.duration} style={styles.itemContainer}>
+        <View style={styles.items}>{item}</View>
+      </View>
+    ),
+    []
+  );
+  return (
+    <View style={styles.container}>
+      <Button title="Snap To 90%" onPress={() => handleSnapPress(2)} />
+      <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
+      <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
+      <Button title="Close" onPress={() => handleClosePress()} />
+      <BottomSheet
+        ref={sheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChange}
+      >
+        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
+          {data.map(renderItem)}
+        </BottomSheetScrollView>
+      </BottomSheet>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        height: SCREEN_HEIGHT,
-        width: "100%",
-        backgroundColor: "white",
-        ...StyleSheet.absoluteFillObject,
-        position: 'absolute',
-        top: SCREEN_HEIGHT,
-        borderRadius: 35
-    },
-    line: {
-        width: 75,
-        height: 4,
-        backgroundColor: 'gray',
-        alignSelf: 'center',
-        marginVertical: 15,
-        borderRadius: 2
-    }
-})
+  container: {
+    flex: 1,
+    paddingTop: 200,
+    width: '100%'
+  },
+  contentContainer: {
+    backgroundColor: "#eee",
+  },
+  itemContainer: {
+    padding: 3,
+    margin: 3,
+    backgroundColor: "#eee",
+    width:"100%",
+    marginHorizontal: "auto"
+  },
+  items:{
+    alignItems: 'center',
+  }
+});
+
+export default BottomSheetApp;

@@ -5,7 +5,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const styles = StyleSheet.create({
   card: {
-    width: "75%",
+    width: "90%",
     height: 200,
     backgroundColor: "#fff",
     borderRadius: 25,
@@ -156,3 +156,5 @@ export const EventCard = ({
     </View>
   );
 };
+
+export default EventCard; 
