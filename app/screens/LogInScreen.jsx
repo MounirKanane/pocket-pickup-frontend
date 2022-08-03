@@ -12,24 +12,22 @@ import AppLoading from "expo-app-loading";
 WebBrowser.maybeCompleteAuthSession();
 
 const LogInScreen = () => {
-    
-    
     const [idToken, setIdToken] = React.useState();
+
     
-    const[request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    React.useEffect(() => {
+        if (response?.type === "success"){ 
+            console.log("success");
+            setIdToken(response.params.id_token);
+        }
+    }, [response]);
+    
+    const[request, response, promptAsync] = Google.useAuthRequest({
         androidClientId: "352608050675-rf29klrfj4edlraicag2ta1bbumtgf15.apps.googleusercontent.com",
         iosClientId: "352608050675-44rdabun6cfpr6obrviq3bgr5g0b9asu.apps.googleusercontent.com",
         expoClientId: "352608050675-i1c6te97b5qoa8rbdpu9n1d3g5ooa1p3.apps.googleusercontent.com"
     });
 
-    React.useEffect(() => {
-        if (response?.type === "success"){ 
-            console.log(response)
-            setIdToken(response.params.id_token);
-        }
-    }, [response]);
-
-    
     let [fonts] = useFonts({
         "Lobster": require('../assets/fonts/Lobster-Regular.ttf'),
         "Oleo" : require('../assets/fonts/OleoScriptSwashCaps-Regular.ttf'),
