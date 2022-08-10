@@ -7,12 +7,14 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window')
 const HomeScreen = () => {
+
   const [ region, setRegion ] = React.useState({
     latitude: 42.3868,
-    longitude: 72.5301
+    longitude: -72.5301
   })
-  
+
   return (
+    
     <View style= {styles.container}>
       <Button title="Create event" onPress = { () => console.log("awesome")} />
       <MapView style={styles.map} initialRegion={{
@@ -20,7 +22,8 @@ const HomeScreen = () => {
         longitude: -72.5281,
         latitudeDelta: 0.010,
         longitudeDelta: 0.020
-      }}>
+      }}
+      provider = "google">
       
         <Marker coordinate={{
           latitude: 42.3899,
@@ -45,11 +48,11 @@ const HomeScreen = () => {
         }}
         query={{
           key: "AIzaSyCWonk3s7DIuS20bICmmitwYlNr43xREOs",
-          language: 'en'
-          //components: "country.us",
+          language: 'en',
+          components: "country:us",
           //types: "establishment",
-          //radius: 30000
-          //location: '${region.latitude}, ${region.longitude}'
+          radius: 30000,
+          location: `${region.latitude}, ${region.longitude}`
         }}
 
         styles = {{
