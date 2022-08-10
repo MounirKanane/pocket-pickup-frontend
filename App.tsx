@@ -13,7 +13,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='Login'>
+        <Stack.Navigator initialRouteName='Home'>
           <Stack.Screen options={{headerShown: false}} name="Login" component={LogInScreen} />
           <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
           <Stack.Screen options={{headerShown: true, title:"Create Event", headerTitleStyle: {fontWeight: '900', fontSize:28}}} name="CreateEvent" component={EventCreationScreen} />
