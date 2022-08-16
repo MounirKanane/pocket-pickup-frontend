@@ -12,22 +12,29 @@ import AppLoading from "expo-app-loading";
 WebBrowser.maybeCompleteAuthSession();
 
 const LogInScreen = () => {
-    const [idToken, setIdToken] = React.useState();
-    
-    React.useEffect(() => {
-        console.log(response)
-        if (response?.type === "success"){ 
-            console.log("success");
-            setIdToken(response.params.id_token);
-        }
-    }, [response]);
-    
     const[request, response, promptAsync] = Google.useAuthRequest({
         responseType: "id_token",
         androidClientId: "352608050675-rf29klrfj4edlraicag2ta1bbumtgf15.apps.googleusercontent.com",
         iosClientId: "352608050675-44rdabun6cfpr6obrviq3bgr5g0b9asu.apps.googleusercontent.com",
         expoClientId: "352608050675-i1c6te97b5qoa8rbdpu9n1d3g5ooa1p3.apps.googleusercontent.com"
     });
+
+    const [idToken, setIdToken] = React.useState();
+    
+
+    const asyncAuthRequest = async () => {
+        if (response?.type === "success") {
+          setIdToken(response.params.id_token);
+          // await AsyncStorage.setItem("accessTocken", "hihi");
+    
+          //navigation.navigate("Home");
+        }
+      };
+
+    React.useEffect(() => {
+        asyncAuthRequest();
+    }, [response]);
+    
 
     let [fonts] = useFonts({
         "Lobster": require('../assets/fonts/Lobster-Regular.ttf'),
@@ -39,7 +46,7 @@ const LogInScreen = () => {
         "Futura": require('../assets/fonts/Futura.otf')
     })
     
-    const getUserData = () => { axios.get(`${server}/user`, {token: idToken}).then( (result) => { console.log(result) }).catch((err) => console.error(err)) };
+    const getUserData = () => { axios.get(`${server}/user`, {token: idToken}).then( (result) => { console.log(result) }).catch((err) => console.error("Error")) };
     
     if(!fonts){
         return <AppLoading />;
@@ -58,7 +65,7 @@ const LogInScreen = () => {
                     <View style={styles.logos}>
                         <TouchableOpacity 
                         disabled={!request}
-                        onPress={idToken ? getUserData : () => {  promptAsync({useProxy: false, showInRecents: true})}}>
+                        onPress={idToken ?  getUserData : () => {promptAsync()}}>
                             <Image style={styles.image} source={require('../assets/images/Google3x.png')} />
                         </TouchableOpacity>
                         <TouchableOpacity 

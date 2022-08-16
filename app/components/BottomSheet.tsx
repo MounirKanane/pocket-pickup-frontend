@@ -47,10 +47,7 @@ const BottomSheetApp = () => {
   );
   return (
     <View style={styles.container}>
-      <Button title="Snap To 90%" onPress={() => handleSnapPress(2)} />
-      <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
-      <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
-      <Button title="Close" onPress={() => handleClosePress()} />
+
       <BottomSheet
         ref={sheetRef}
         index={1}

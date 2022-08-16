@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, Button, ScrollView } from 'react-native';
 import MapView, { Callout, Circle, Marker } from 'react-native-maps';
 import React from 'react';
 import BottomSheetApp from '../components/BottomSheet';
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     height: Dimensions.get('screen').height,
     width: Dimensions.get('screen').width,
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

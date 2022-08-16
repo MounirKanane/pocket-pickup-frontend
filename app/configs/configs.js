@@ -1,1 +1,1 @@
-export const server = "http://10.0.2.2:5001";
+export const server = "https://pocket-pickup-app.herokuapp.com/";
