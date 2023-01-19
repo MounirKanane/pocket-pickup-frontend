@@ -18,7 +18,8 @@ const HomeScreen = () => {
   return (
     
     <View style= {styles.container}>
-      <Button title="Create event" onPress = { () => console.log("awesome")} />
+      {/* <Button title="Create event" onPress = { () => console.log("awesome")} /> */}
+
       <MapView style={styles.map} 
       
         initialRegion={{
@@ -34,17 +35,13 @@ const HomeScreen = () => {
           latitudeDelta: 0.010,
           longitudeDelta: 0.020
         }}
-        provider = "google">
+       >
         
-        {/* <Marker coordinate={{
-          latitude: region.latitude,
-          longitude: region.longitude
-        }}/> */}
+      
       </MapView> 
 
-            {/* <View style={{ flex: 1 }}>
-                  <CircleButton size={45} />
-       </View> */}
+      {/* <View style={{ flex: 1, position: "absolute" }}>
+      </View> */}
 
       <GooglePlacesAutocomplete
         placeholder='Search'
@@ -76,10 +73,9 @@ const HomeScreen = () => {
           listView: { backgroundColor: "white" },
         }}
       />
-
-    <BottomSheetApp></BottomSheetApp>
+        <BottomSheetApp></BottomSheetApp>
     </View>
-  )
+  );
 }
 
 export default HomeScreen
@@ -94,7 +90,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject
+    ...StyleSheet.absoluteFillObject,
+    position: "absolute"
   },
   eventCard: {
      margin: 20

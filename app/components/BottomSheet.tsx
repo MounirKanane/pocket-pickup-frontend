@@ -2,6 +2,9 @@ import React, { useCallback, useRef, useMemo } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import EventCard from "./EventCard";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ScrollView } from 'react-native-gesture-handler';
+
 
 const BottomSheetApp = () => {
   // hooks
@@ -23,7 +26,9 @@ const BottomSheetApp = () => {
      <EventCard duration={"51 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>,
      <EventCard duration={"50 minutes"} location={"OHill"} sport={"Basketball"} counterText={"10"} ></EventCard>
     ]
-  const snapPoints = useMemo(() => ["15%", "50%", "98%"], []);
+  // Until we can fix the mid one, comment it out
+  const snapPoints = useMemo(() => ["15%", "50%", "88%"], []);
+  // const snapPoints = useMemo(() => ["15%","88%"], []);
 
   // callbacks
   const handleSheetChange = useCallback((index) => {
@@ -47,16 +52,18 @@ const BottomSheetApp = () => {
   );
   return (
     <View style={styles.container}>
-
       <BottomSheet
         ref={sheetRef}
         index={1}
         snapPoints={snapPoints}
         onChange={handleSheetChange}
       >
-        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
+        {/* <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
           {data.map(renderItem)}
-        </BottomSheetScrollView>
+        </BottomSheetScrollView> */}
+          <ScrollView style={styles.contentContainer}>
+            {data.map(renderItem)}
+          </ScrollView>
       </BottomSheet>
     </View>
   );
@@ -66,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 200,
-    width: '100%'
+    width: '100%',
   },
   contentContainer: {
     backgroundColor: "#eee",
