@@ -1,9 +1,11 @@
+import {API_MAPS} from "react-native-dotenv";
 import { StyleSheet, Text, View, SafeAreaView, Dimensions, Button, ScrollView } from 'react-native';
 import MapView, { Callout, Circle, Marker } from 'react-native-maps';
 import React from 'react';
 import BottomSheetApp from '../components/BottomSheet';
 // import CircleButton from 'react-native-circle-button';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import FiltrationPills from "../components/FilterPills";
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window')
 const HomeScreen = () => {
@@ -19,7 +21,6 @@ const HomeScreen = () => {
     
     <View style= {styles.container}>
       {/* <Button title="Create event" onPress = { () => console.log("awesome")} /> */}
-
       <MapView style={styles.map} 
       
         initialRegion={{
@@ -73,7 +74,16 @@ const HomeScreen = () => {
           listView: { backgroundColor: "white" },
         }}
       />
-        <BottomSheetApp></BottomSheetApp>
+
+      <View style={{flex: 0, position: "absolute", width: "92%", top: "10%", zIndex: 1}}>
+        <FiltrationPills onFilterChange={({filter}: any) => {
+            console.log(filter);
+          }} 
+        />
+      </View>
+        
+
+    <BottomSheetApp></BottomSheetApp>
     </View>
   );
 }
