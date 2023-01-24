@@ -1,4 +1,4 @@
-import { Text, SafeAreaView, StyleSheet,View, Dimensions } from 'react-native'
+import { Text, StyleSheet,View, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import MapView, {Marker} from 'react-native-maps'
 import { AntDesign, Entypo,Ionicons,FontAwesome,FontAwesome5 } from '@expo/vector-icons'; 
@@ -7,7 +7,7 @@ import AppButton from '../components/AppButton';
 import PeopleList from '../components/PeopleList';
 
 //fonts
-import {useFonts } from "expo-font";
+import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
 const ICON_SIZE = 30;
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
     },
     icon: {
       position: "absolute",
-      top: 20,
+      top: 30,
       left: 20,
       alignSelf: "flex-start",
     },
     title: {
       fontSize: 30,
-      fontFamily:"Racing",
+      fontFamily:"Titan",
       width:"90%",
       marginTop: SCREEN_HEIGHT/15,
       marginLeft: 10
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     peopleContainer: {
       flex: 1,
       position:"absolute",
-      top: "68%",
+      top: "66%",
       width: "90%",
     }
 })
